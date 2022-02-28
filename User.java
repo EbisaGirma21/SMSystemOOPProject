@@ -34,4 +34,9 @@ public abstract class User {
         return gender;
     }
 
+    abstract void setUserCon(String query) throws ClassNotFoundException, SQLException;
+
+    abstract String userUpdate(String userId) throws ClassNotFoundException, SQLException;
+
+    abstract void userInserting() throws SQLException, ClassNotFoundException;
 }
