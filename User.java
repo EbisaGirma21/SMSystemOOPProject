@@ -1,3 +1,9 @@
+import java.sql.SQLException;
+
+import java.sql.SQLException;
+
+import java.rmi.server.ServerCloneException;
+
 public abstract class User {
     String firstName;
     String middleName;
@@ -33,6 +39,8 @@ public abstract class User {
     public String getGender() {
         return gender;
     }
+
+    abstract void setUserCon(String query) throws ClassNotFoundException, ServerCloneException
 
     abstract void setUserCon(String query) throws ClassNotFoundException, SQLException;
 
