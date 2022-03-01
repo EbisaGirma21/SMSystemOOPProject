@@ -43,4 +43,8 @@ public abstract class User {
     abstract String userUpdate(String userId) throws ClassNotFoundException, SQLException;
 
     abstract void userInserting() throws SQLException, ClassNotFoundException;
+
+    void deleteUser(String sql, String userID) throws ClassNotFoundException, SQLException {
+
+    }
 }
