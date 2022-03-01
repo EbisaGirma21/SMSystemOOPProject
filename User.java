@@ -42,8 +42,6 @@ public abstract class User {
 
     abstract void setUserCon(String query) throws ClassNotFoundException, ServerCloneException
 
-    abstract void setUserCon(String query) throws ClassNotFoundException, SQLException;
-
     abstract String userUpdate(String userId) throws ClassNotFoundException, SQLException;
 
     abstract void userInserting() throws SQLException, ClassNotFoundException;
