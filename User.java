@@ -1,7 +1,5 @@
 import java.sql.SQLException;
 
-import java.rmi.server.ServerCloneException;
-
 public abstract class User {
     String firstName;
     String middleName;
