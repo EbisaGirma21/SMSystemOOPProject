@@ -11,3 +11,18 @@
             this.gradeNumber = gradeNumber;
         }
 }
+public String getSubjectName() {
+    return subjectName;
+}
+
+public String getSubjectCode() {
+    return subjectCode;
+}
+
+public String getTeacherId() {
+    return teacherId;
+}
+
+public String getGradeNumber() {
+    return gradeNumber;
+}
