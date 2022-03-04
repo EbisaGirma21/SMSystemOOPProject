@@ -47,3 +47,16 @@ public abstract class User {
 
     }
 }
+
+String validityChecker(String Checkable) {
+    while (true) {
+        if (!Checkable.matches("[0-9]+")) {
+            System.out.println("Invalid Grade");
+            System.out.println("Please Enter another");
+            Checkable = input.nextLine();
+        } else {
+            break;
+        }
+    }
+    return Checkable;
+}

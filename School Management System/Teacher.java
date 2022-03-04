@@ -27,7 +27,6 @@ public class Teacher extends User {
         this.subject = subject;
 
     }
-
     public void setSubject(String subject) {
         this.subject = subject;
     }
@@ -138,7 +137,7 @@ public class Teacher extends User {
             teacherOption = Integer.parseInt(teachOption);
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }
-    }
+    
 
     @Override
     String userUpdate(String teacherID) throws ClassNotFoundException, SQLException {
