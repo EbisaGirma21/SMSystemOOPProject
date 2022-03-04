@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,4 +26,29 @@ public class Teacher extends User {
         super.gender = gender;
         this.subject = subject;
 
+    }
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    @Override
+    void setUserCon(String query) throws ClassNotFoundException, ServerCloneException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    String userUpdate(String userId) throws ClassNotFoundException, SQLException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    void userInserting() throws SQLException, ClassNotFoundException {
+        // TODO Auto-generated method stub
+      return null;
     }

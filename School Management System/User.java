@@ -1,3 +1,4 @@
+import java.rmi.server.ServerCloneException;
 import java.sql.SQLException;
 
 public abstract class User {
