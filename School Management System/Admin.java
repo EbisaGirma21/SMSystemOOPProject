@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.rmi.server.ServerCloneException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,6 +7,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 class Admin extends User {
+    Scanner input = new Scanner(System.in);
     Student student = new Student(null, null, null, null, null);
     Teacher teacher = new Teacher(null, null, null, null, null, null);
     String userName;
@@ -61,9 +63,8 @@ class Admin extends User {
         }
     }
 
-<<<<<<< Updated upstream
-
-    void adminPort() throws InterruptedException, IOException, ClassNotFoundException, SQLException {
+    void adminPort()
+            throws InterruptedException, IOException, ClassNotFoundException, SQLException, ServerCloneException {
         /// initialazation of query as local variable in this method
         String query = "";
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -240,8 +241,6 @@ class Admin extends User {
         }
     }
 
-}
-=======
     @Override
     void setUserCon(String query) throws ClassNotFoundException, ServerCloneException {
         // TODO Auto-generated method stub
@@ -260,4 +259,3 @@ class Admin extends User {
 
     }
 }
->>>>>>> Stashed changes
