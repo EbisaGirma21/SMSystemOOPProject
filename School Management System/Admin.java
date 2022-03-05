@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 class Admin extends User {
     Student student = new Student(null, null, null, null, null, null, null, null);
@@ -37,6 +38,30 @@ class Admin extends User {
     public int getValidity() {
         return validity;
     }
+
+    void checkValidity() throws ClassNotFoundException, SQLException {
+        System.out.println("Enter Your User Name");
+        String adminUserName = input.nextLine();
+        System.out.println("Enter your Password");
+        String adminPassword = input.nextLine();
+        System.out.println("Loading...");
+        DataBaseAccess db = new DataBaseAccess();
+        Connection con = db.Connection();
+        Statement statements = con.createStatement();
+        String sql = "select userName , Password from admin";
+        ResultSet resultStore = statements.executeQuery(sql);
+        while (resultStore.next()) {
+            setUserName(resultStore.getString(1));
+            setPassword(resultStore.getString(2));
+        }
+        if (adminUserName.equals(getUserName()) && adminPassword.equals(getPassword())) {
+            this.validity = 1;
+        } else {
+            this.validity = 0;
+        }
+    }
+
+
     void adminPort() throws InterruptedException, IOException, ClassNotFoundException, SQLException {
         /// initialazation of query as local variable in this method
         String query = "";
@@ -213,3 +238,5 @@ class Admin extends User {
             }
         }
     }
+
+}

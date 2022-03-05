@@ -35,23 +35,39 @@ public class Teacher extends User {
         return subject;
     }
 
-    @Override
-    void setUserCon(String query) throws ClassNotFoundException, ServerCloneException {
-        // TODO Auto-generated method stub
+    public void setUserCon(String sql) throws ClassNotFoundException, SQLException {
+        Teacher[] teacher = new Teacher[100];
+        for (int i = 0; i < teacher.length; i++) {
+            teacher[i] = new Teacher(sql, sql, sql, sql, sql, sql);
+        }
+        DataBaseAccess teachdb = new DataBaseAccess();
+        Connection con = teachdb.Connection();
+        Statement statements = con.createStatement();
+        ResultSet resultStore = statements.executeQuery(sql);
+        int i = 0;
 
+        while (resultStore.next()) {
+            teacher[i].setTeacher(resultStore.getString(1), resultStore.getString(2),
+                    resultStore.getString(3), resultStore.getString(4),
+                    resultStore.getString(5), resultStore.getString(6));
+            i++;
+        }
+        if (i == 0) {
+            System.out.println("There is no specified Teacher yet!");
+        } else {
+            System.out
+                    .println("FirstName    MiddleName    LastName     ID_No    Gender     Subject");
+            for (int j = 0; j < i; j++) {
+                System.out.printf(
+                        "%s       %s        %s      %s       %s       %s%n",
+                        teacher[j].getFirstName(),
+                        teacher[j].getMiddleName(), teacher[j].getLastName(),
+                        teacher[j].getUserId(),
+                        teacher[j].getGender(), teacher[j].getSubject());
+            }
+        }
     }
 
-    @Override
-    String userUpdate(String userId) throws ClassNotFoundException, SQLException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    void userInserting() throws SQLException, ClassNotFoundException {
-        // TODO Auto-generated method stub
-      return null;
-    }
     void userInserting() throws ClassNotFoundException, SQLException {
         System.out.println("Enter Teacher First Name");
         firstName = input.nextLine();
@@ -79,3 +95,50 @@ public class Teacher extends User {
         insert.execute();
         System.out.println("Successfully Added");
     }
+
+    void teacherInfo() throws ClassNotFoundException, SQLException, InterruptedException, IOException {
+        String query = "";
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        System.out.println("1. To View your Information");
+        System.out.println("2. To View students information");
+        System.out.println("3. To Add Mark of your student");
+        System.out.println("4. To Update mark of your student");
+        System.out.println("press -1 to exit ");
+        String teachOption = input.nextLine();
+        int teacherOption = Integer.parseInt(teachOption);
+        while (teacherOption != -1) {
+            if (teacherOption == 1) {
+                System.out.println("Enter Your ID number");
+                String teacherID = input.nextLine();
+                teacherID = validityChecker(teacherID);
+                query = "select * from teacher where teacherId = " + teacherID;
+                setUserCon(query);
+            } else if (teacherOption == 2) {
+                query = "select * from students";
+                student.setUserCon(query);
+            } else if (teacherOption == 3) {
+                marks.markInserting();
+            } else if (teacherOption == 4) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                System.out.println("Enter Teacher ID number you want to update");
+                String studentId = input.nextLine();
+                studentId = validityChecker(studentId);
+                query = "select * from marks where studentID = " + studentId;
+                marks.setMarksCon(query);
+                System.out.println(marks.marksUpdate(studentId));
+
+            } else {
+                System.out.println("Please Enter the correct option\n");
+            }
+            System.out.println("1. To see your Information");
+            System.out.println("2. To see your student information");
+            System.out.println("press -1 to exit ");
+            teachOption = input.nextLine();
+            teacherOption = Integer.parseInt(teachOption);
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }
+    
+
+    }
+}
+
