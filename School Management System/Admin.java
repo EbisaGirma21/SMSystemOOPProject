@@ -61,6 +61,7 @@ class Admin extends User {
         }
     }
 
+
     void adminPort() throws InterruptedException, IOException, ClassNotFoundException, SQLException {
         /// initialazation of query as local variable in this method
         String query = "";
@@ -237,7 +238,5 @@ class Admin extends User {
             }
         }
     }
-
-    Scanner input = new Scanner(System.in);
 
 }
