@@ -52,3 +52,30 @@ public class Teacher extends User {
         // TODO Auto-generated method stub
       return null;
     }
+    void userInserting() throws ClassNotFoundException, SQLException {
+        System.out.println("Enter Teacher First Name");
+        firstName = input.nextLine();
+        System.out.println("Enter Teacher Middle Name");
+        middleName = input.nextLine();
+        System.out.println("Enter Teacher Last Name");
+        lastName = input.nextLine();
+        System.out.println("Enter Teacher ID ");
+        userId = input.nextLine();
+        userId = validityChecker(userId);
+        System.out.println("Enter Teacher Gender ");
+        gender = input.nextLine();
+        System.out.println("Enter Subject of Teacher");
+        subject = input.nextLine();
+        String queryInsert = "insert into teacher values(?,?,?,?,?,?)";
+        DataBaseAccess db = new DataBaseAccess();
+        Connection con = db.Connection();
+        PreparedStatement insert = con.prepareStatement(queryInsert);
+        insert.setString(1, firstName);
+        insert.setString(2, middleName);
+        insert.setString(3, lastName);
+        insert.setString(4, userId);
+        insert.setString(5, gender);
+        insert.setString(6, subject);
+        insert.execute();
+        System.out.println("Successfully Added");
+    }
