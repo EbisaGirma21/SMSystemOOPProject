@@ -1,7 +1,7 @@
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Marks {
     String studentId;
@@ -64,34 +64,33 @@ public class Marks {
         return total;
     }
 
-}
+    void setMarksCon(String sql) throws ClassNotFoundException, SQLException {
+        Marks[] marks = new Marks[100];
+        for (int i = 0; i < marks.length; i++) {
+            marks[i] = new Marks(null, null, sql, sql, sql, sql, sql, sql);
+        }
+        DataBaseAccess db = new DataBaseAccess();
+        Connection con = db.Connection();
+        Statement statements = con.createStatement();
+        ResultSet resultStore = statements.executeQuery(sql);
 
-void setMarksCon(String sql) throws ClassNotFoundException, SQLException {
-    Marks[] marks = new Marks[100];
-    for (int i = 0; i < marks.length; i++) {
-        marks[i] = new Marks(null, null, sql, sql, sql, sql, sql, sql);
-    }
-    DataBaseAccess db = new DataBaseAccess();
-    Connection con = db.Connection();
-    Statement statements = con.createStatement();
-    ResultSet resultStore = statements.executeQuery(sql);
-
-    int i = 0;
-    while (resultStore.next()) {
-        marks[i].setMarks(resultStore.getString(1), resultStore.getString(2),
-                resultStore.getInt(3), resultStore.getInt(4),
-                resultStore.getInt(5),
-                resultStore.getInt(6), resultStore.getInt(7));
-        i++;
-    }
-    System.out.println(
-            "StudentId    SubjectCoode    Quiz     Assignment    Mid_Exam     Final-Exam     Total");
-    for (int j = 0; j < i; j++) {
-        System.out.printf(
-                "%s       %s        %s      %s       %s       %s     %s%n",
-                marks[j].getStudentId(), marks[j].getSubjectId(), marks[j].getQuiz(),
-                marks[j].getAssignment(), marks[j].getMidexam(),
-                marks[j].getFinalexam(),
-                marks[j].getTotal());
+        int i = 0;
+        while (resultStore.next()) {
+            marks[i].setMarks(resultStore.getString(1), resultStore.getString(2),
+                    resultStore.getInt(3), resultStore.getInt(4),
+                    resultStore.getInt(5),
+                    resultStore.getInt(6), resultStore.getInt(7));
+            i++;
+        }
+        System.out.println(
+                "StudentId    SubjectCoode    Quiz     Assignment    Mid_Exam     Final-Exam     Total");
+        for (int j = 0; j < i; j++) {
+            System.out.printf(
+                    "%s       %s        %s      %s       %s       %s     %s%n",
+                    marks[j].getStudentId(), marks[j].getSubjectId(), marks[j].getQuiz(),
+                    marks[j].getAssignment(), marks[j].getMidexam(),
+                    marks[j].getFinalexam(),
+                    marks[j].getTotal());
+        }
     }
 }
