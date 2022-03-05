@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 class Admin extends User {
     Scanner input = new Scanner(System.in);
-    Student student = new Student(null, null, null, null, null);
+    Student student = new Student(null, null, null, null, null, null, null, null);
     Teacher teacher = new Teacher(null, null, null, null, null, null);
     String userName;
     String password;
