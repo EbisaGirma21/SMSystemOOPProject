@@ -1,4 +1,9 @@
-public class Mark {
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Marks {
     String studentId;
     String subjectId;
     int quiz;
@@ -7,7 +12,7 @@ public class Mark {
     int finalexam;
     int total;
 
-    Mark(String studentId, String subjectId, int quiz, int assignment, int midexam, int finalexam, int total) {
+    Marks(String studentId, String subjectId, int quiz, int assignment, int midexam, int finalexam, int total) {
         this.studentId = studentId;
         this.subjectId = subjectId;
         this.quiz = quiz;
@@ -17,11 +22,11 @@ public class Mark {
         this.total = total;
     }
 
-    public Mark(Object object, Object object2, String sql, String sql2, String sql3, String sql4, String sql5,
+    public Marks(Object object, Object object2, String sql, String sql2, String sql3, String sql4, String sql5,
             String sql6) {
     }
 
-    void setMark(String studentId, String subjectId, int quiz, int assignment, int midexam, int finalexam, int total) {
+    void setMarks(String studentId, String subjectId, int quiz, int assignment, int midexam, int finalexam, int total) {
         this.studentId = studentId;
         this.subjectId = subjectId;
         this.quiz = quiz;
@@ -58,8 +63,8 @@ public class Mark {
     public int getTotal() {
         return total;
     }
-}
 
+}
 
 void setMarksCon(String sql) throws ClassNotFoundException, SQLException {
     Marks[] marks = new Marks[100];
