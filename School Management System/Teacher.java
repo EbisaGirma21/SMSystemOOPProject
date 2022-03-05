@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Teacher extends User {
     Scanner input = new Scanner(System.in);
-    Student student = new Student(null, null, null, null, null);
+    Student student = new Student(null, null, null, null, null, null, null, null);
     Marks marks = new Marks(null, null, 0, 0, 0, 0, 0);
     String subject;
 
@@ -27,6 +27,7 @@ public class Teacher extends User {
         this.subject = subject;
 
     }
+
     public void setSubject(String subject) {
         this.subject = subject;
     }
@@ -137,8 +138,12 @@ public class Teacher extends User {
             teacherOption = Integer.parseInt(teachOption);
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }
-    
 
     }
-}
 
+    @Override
+    String userUpdate(String userId) throws ClassNotFoundException, SQLException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+}
