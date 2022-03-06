@@ -1,11 +1,12 @@
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 public class Marks {
+
     Scanner input = new Scanner(System.in);
     String studentId;
     String subjectId;
@@ -25,8 +26,8 @@ public class Marks {
         this.total = total;
     }
 
-    public Marks(Object object, Object object2, String sql, String sql2, String sql3, String sql4, String sql5,
-            String sql6) {
+    public Marks(Object object, Object object2, Object object3, Object object4, Object object5, Object object6,
+            Object object7, Object object8) {
     }
 
     void setMarks(String studentId, String subjectId, int quiz, int assignment, int midexam, int finalexam, int total) {
@@ -67,10 +68,24 @@ public class Marks {
         return total;
     }
 
+    String validityChecker(String Checkable) {
+        while (true) {
+            if (!Checkable.matches("[0-9]+")) {
+                System.out.println("Invalid Grade");
+                System.out.println("Please Enter another");
+                Checkable = input.nextLine();
+            } else {
+                break;
+            }
+        }
+        return Checkable;
+    }
+
+    // Getting the marks from the database through DataBaseAccess class
     void setMarksCon(String sql) throws ClassNotFoundException, SQLException {
         Marks[] marks = new Marks[100];
         for (int i = 0; i < marks.length; i++) {
-            marks[i] = new Marks(null, null, sql, sql, sql, sql, sql, sql);
+            marks[i] = new Marks(null, null, null, null, null, null, null, null);
         }
         DataBaseAccess db = new DataBaseAccess();
         Connection con = db.Connection();
@@ -85,66 +100,53 @@ public class Marks {
                     resultStore.getInt(6), resultStore.getInt(7));
             i++;
         }
-        System.out.println(
-                "StudentId    SubjectCoode    Quiz     Assignment    Mid_Exam     Final-Exam     Total");
-        for (int j = 0; j < i; j++) {
-            System.out.printf(
-                    "%s       %s        %s      %s       %s       %s     %s%n",
-                    marks[j].getStudentId(), marks[j].getSubjectId(), marks[j].getQuiz(),
-                    marks[j].getAssignment(), marks[j].getMidexam(),
-                    marks[j].getFinalexam(),
-                    marks[j].getTotal());
+        if (i == 0) {
+            System.out.println("There is no specified student yet!");
+        } else {
+            System.out.println(
+                    "----------------------------------------------------------------------------------------------------------");
+            System.out.printf("%10s %15s %15s %15s %15s %15s %15s",
+                    "StudentId", "SubjectCoode", "Quiz", "Assignment", "Mid_Exam", "Final-Exam", "Total");
+            System.out.println();
+            System.out.println(
+                    "----------------------------------------------------------------------------------------------------------");
+            for (int j = 0; j < i; j++) {
+                System.out.format("%10s %15s %15s %15s %15s %15s %15s",
+                        marks[j].getStudentId(), marks[j].getSubjectId(), marks[j].getQuiz(),
+                        marks[j].getAssignment(), marks[j].getMidexam(),
+                        marks[j].getFinalexam(),
+                        marks[j].getTotal());
+                System.out.println();
+            }
+            System.out.println(
+                    "----------------------------------------------------------------------------------------------------------");
+
         }
     }
 
+    // Inserthing Marks of students
     void markInserting() throws SQLException, ClassNotFoundException {
         System.out.println("Enter student ID ");
         studentId = input.nextLine();
         System.out.println("Enter subject ID ");
         subjectId = input.nextLine();
-        while (true) {
-            System.out.println("Enter quiz ");
-            String quizs = input.nextLine();
-            if (!quizs.matches("[0-9]+")) {
-                System.out.println("Invalid mark");
-            } else {
-                quiz = Integer.parseInt(quizs);
-                break;
-            }
-        }
-        while (true) {
-            System.out.println("Enter assignment ");
-            String assignments = input.nextLine();
-            if (!assignments.matches("[0-9]+")) {
-                System.out.println("Invalid mark");
-            } else {
-                assignment = Integer.parseInt(assignments);
-                break;
-            }
-        }
-        while (true) {
-            System.out.println("Enter mid-exam ");
-            String mid_exam = input.nextLine();
-            if (!mid_exam.matches("[0-9]+")) {
-                System.out.println("Invalid mark");
-            } else {
-                midexam = Integer.parseInt(mid_exam);
-                break;
-            }
-        }
-
-        while (true) {
-            System.out.println("Enter final ");
-            String final_exam = input.nextLine();
-            if (!final_exam.matches("[0-9]+")) {
-                System.out.println("Invalid mark");
-            } else {
-                finalexam = Integer.parseInt(final_exam);
-                break;
-            }
-        }
+        System.out.println("Enter quiz ");
+        String quizs = input.nextLine();
+        quizs = validityChecker(quizs);
+        quiz = Integer.parseInt(quizs);
+        System.out.println("Enter assignment ");
+        String assignments = input.nextLine();
+        assignments = validityChecker(assignments);
+        assignment = Integer.parseInt(assignments);
+        System.out.println("Enter mid-exam ");
+        String mid_exam = input.nextLine();
+        mid_exam = validityChecker(mid_exam);
+        midexam = Integer.parseInt(mid_exam);
+        System.out.println("Enter final ");
+        String final_exam = input.nextLine();
+        final_exam = validityChecker(final_exam);
+        finalexam = Integer.parseInt(final_exam);
         total = quiz + assignment + midexam + finalexam;
-
         String queryInsert = "insert into marks values(?,?,?,?,?,?,?)";
         DataBaseAccess db = new DataBaseAccess();
         Connection con = db.Connection();
@@ -161,15 +163,10 @@ public class Marks {
                 break;
             } else {
                 System.out.println("There is no student with this ID ");
-                while (true) {
-                    System.out.println("Please Enter another");
-                    studentId = input.nextLine();
-                    if (!studentId.matches("[0-9]+")) {
-                        System.out.println("Invalid ID");
-                    } else {
-                        break;
-                    }
-                }
+                System.out.println("Please Enter another");
+                studentId = input.nextLine();
+                studentId = validityChecker(studentId);
+
             }
         }
         resultStore = statements.executeQuery("select * from subject");
@@ -200,55 +197,65 @@ public class Marks {
         System.out.println("Successfully inserted");
     }
 
+    // Updating marks of student
     String marksUpdate(String studentID) throws SQLException, ClassNotFoundException {
-        DataBaseAccess db = new DataBaseAccess();
-        Connection con = db.Connection();
-        Statement statements = con.createStatement();
-        System.out.println("1.Quiz  2.Assignment  3.Mid-Exam  5.Final Exam  ");
-        String info = "";
-        String updatedInfo = "";
-        int uptoDate;
-        String opt = input.nextLine();
-        int options = Integer.parseInt(opt);
-        if (options == 1) {
-            info = "quiz";
-            System.out.println("Enter  quiz");
-            updatedInfo = input.nextLine();
-            uptoDate = Integer.parseInt(updatedInfo);
-        } else if (options == 2) {
-            info = "assignnment";
-            System.out.println("Enter assignment");
-            updatedInfo = input.nextLine();
-            uptoDate = Integer.parseInt(updatedInfo);
-        } else if (options == 3) {
-            info = "midExam";
-            System.out.println("Enter Mid-Exam");
-            updatedInfo = input.nextLine();
-            uptoDate = Integer.parseInt(updatedInfo);
-        } else if (options == 4) {
-            info = "finalExam";
-            System.out.println("Enter Final-Exam");
-            updatedInfo = input.nextLine();
-            uptoDate = Integer.parseInt(updatedInfo);
-        } else {
-            System.out.println("Incorrect input");
-            return "This is Hidden!";
+        try {
+            DataBaseAccess db = new DataBaseAccess();
+            Connection con = db.Connection();
+            Statement statements = con.createStatement();
+            System.out.println("1.Quiz  2.Assignment  3.Mid-Exam  5.Final Exam  ");
+            String info = "";
+            String updatedInfo = "";
+            int uptoDate;
+            String opt = input.nextLine();
+            int options = Integer.parseInt(opt);
+            if (options == 1) {
+                info = "quiz";
+                System.out.println("Enter  quiz");
+                updatedInfo = input.nextLine();
+                uptoDate = Integer.parseInt(updatedInfo);
+            } else if (options == 2) {
+                info = "assignment";
+                System.out.println("Enter assignment");
+                updatedInfo = input.nextLine();
+                uptoDate = Integer.parseInt(updatedInfo);
+            } else if (options == 3) {
+                info = "midExam";
+                System.out.println("Enter Mid-Exam");
+                updatedInfo = input.nextLine();
+                uptoDate = Integer.parseInt(updatedInfo);
+            } else if (options == 4) {
+                info = "finalExam";
+                System.out.println("Enter Final-Exam");
+                updatedInfo = input.nextLine();
+                uptoDate = Integer.parseInt(updatedInfo);
+            } else {
+                System.out.println("Incorrect input");
+                return "This is Hidden!";
+            }
+
+            String queryUpdate = "update marks set " + info + " = ? where studentID = ?";
+            PreparedStatement update = con.prepareStatement(queryUpdate);
+            update.setInt(1, uptoDate);
+            update.setString(2, studentID);
+            update.executeUpdate();
+            ResultSet resultStore = statements.executeQuery("select * from marks where studentID=" + studentID);
+            while (resultStore.next())
+                total = resultStore.getInt(3) + resultStore.getInt(4) + resultStore.getInt(5) + resultStore.getInt(6);
+            queryUpdate = "update marks set total = ? where studentID = ?";
+            update = con.prepareStatement(queryUpdate);
+            update.setInt(1, total);
+            update.setString(2, studentID);
+            update.executeUpdate();
+            return "Successfully Updated!";
+
+        } catch (
+
+        Exception e) {
+            System.out.println("This is Hidden please Try Again");
+            return " not Successfully Updated!";
+
         }
-
-        String queryUpdate = "update marks set " + info + " = ? where studentID = ?";
-        PreparedStatement update = con.prepareStatement(queryUpdate);
-        update.setInt(1, uptoDate);
-        update.setString(2, studentID);
-        update.executeUpdate();
-        ResultSet resultStore = statements.executeQuery("select * from marks where studentID=" + studentID);
-        while (resultStore.next())
-            total = resultStore.getInt(3) + resultStore.getInt(4) + resultStore.getInt(5) + resultStore.getInt(6);
-        queryUpdate = "update marks set total = ? where studentID = ?";
-        update = con.prepareStatement(queryUpdate);
-        update.setInt(1, total);
-        update.setString(2, studentID);
-        update.executeUpdate();
-        return "Successfully Updated!";
-
     }
+
 }
