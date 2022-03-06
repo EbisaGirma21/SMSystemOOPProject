@@ -1,7 +1,9 @@
 import java.rmi.server.ServerCloneException;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public abstract class User {
+    Scanner input = new Scanner(System.in);
     String firstName;
     String middleName;
     String lastName;
@@ -46,17 +48,17 @@ public abstract class User {
     void deleteUser(String sql, String userID) throws ClassNotFoundException, SQLException {
 
     }
-}
 
-String validityChecker(String Checkable) {
-    while (true) {
-        if (!Checkable.matches("[0-9]+")) {
-            System.out.println("Invalid Grade");
-            System.out.println("Please Enter another");
-            Checkable = input.nextLine();
-        } else {
-            break;
+    String validityChecker(String Checkable) {
+        while (true) {
+            if (!Checkable.matches("[0-9]+")) {
+                System.out.println("Invalid Grade");
+                System.out.println("Please Enter another");
+                Checkable = input.nextLine();
+            } else {
+                break;
+            }
         }
+        return Checkable;
     }
-    return Checkable;
 }

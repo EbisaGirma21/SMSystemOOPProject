@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws Exception {
         Student student = new Student(null, null, null, null, null, null, null, null);
-
         Teacher teacher = new Teacher(null, null, null, null, null, null);
         Admin admin = new Admin(null, null, null, null, null, null, null);
         try (Scanner input = new Scanner(System.in)) {
