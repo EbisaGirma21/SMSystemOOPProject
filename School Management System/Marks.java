@@ -199,4 +199,56 @@ public class Marks {
         insert.execute();
         System.out.println("Successfully inserted");
     }
+
+    String marksUpdate(String studentID) throws SQLException, ClassNotFoundException {
+        DataBaseAccess db = new DataBaseAccess();
+        Connection con = db.Connection();
+        Statement statements = con.createStatement();
+        System.out.println("1.Quiz  2.Assignment  3.Mid-Exam  5.Final Exam  ");
+        String info = "";
+        String updatedInfo = "";
+        int uptoDate;
+        String opt = input.nextLine();
+        int options = Integer.parseInt(opt);
+        if (options == 1) {
+            info = "quiz";
+            System.out.println("Enter  quiz");
+            updatedInfo = input.nextLine();
+            uptoDate = Integer.parseInt(updatedInfo);
+        } else if (options == 2) {
+            info = "assignnment";
+            System.out.println("Enter assignment");
+            updatedInfo = input.nextLine();
+            uptoDate = Integer.parseInt(updatedInfo);
+        } else if (options == 3) {
+            info = "midExam";
+            System.out.println("Enter Mid-Exam");
+            updatedInfo = input.nextLine();
+            uptoDate = Integer.parseInt(updatedInfo);
+        } else if (options == 4) {
+            info = "finalExam";
+            System.out.println("Enter Final-Exam");
+            updatedInfo = input.nextLine();
+            uptoDate = Integer.parseInt(updatedInfo);
+        } else {
+            System.out.println("Incorrect input");
+            return "This is Hidden!";
+        }
+
+        String queryUpdate = "update marks set " + info + " = ? where studentID = ?";
+        PreparedStatement update = con.prepareStatement(queryUpdate);
+        update.setInt(1, uptoDate);
+        update.setString(2, studentID);
+        update.executeUpdate();
+        ResultSet resultStore = statements.executeQuery("select * from marks where studentID=" + studentID);
+        while (resultStore.next())
+            total = resultStore.getInt(3) + resultStore.getInt(4) + resultStore.getInt(5) + resultStore.getInt(6);
+        queryUpdate = "update marks set total = ? where studentID = ?";
+        update = con.prepareStatement(queryUpdate);
+        update.setInt(1, total);
+        update.setString(2, studentID);
+        update.executeUpdate();
+        return "Successfully Updated!";
+
+    }
 }
