@@ -56,16 +56,24 @@ public class Teacher extends User {
         if (i == 0) {
             System.out.println("There is no specified Teacher yet!");
         } else {
-            System.out
-                    .println("FirstName    MiddleName    LastName     ID_No    Gender     Subject");
+
+            System.out.println(
+                    "------------------------------------------------------------------------------------------");
+            System.out.printf("%10s %15s %15s %15s %15s %15s", "FirstName", "MiddleName", "LastName", "ID_No", "Gender",
+                    "Subject");
+            System.out.println();
+            System.out.println(
+                    "------------------------------------------------------------------------------------------");
             for (int j = 0; j < i; j++) {
-                System.out.printf(
-                        "%s       %s        %s      %s       %s       %s%n",
+                System.out.format("%10s %15s %15s %15s %15s %15s",
                         teacher[j].getFirstName(),
                         teacher[j].getMiddleName(), teacher[j].getLastName(),
                         teacher[j].getUserId(),
                         teacher[j].getGender(), teacher[j].getSubject());
+                System.out.println();
             }
+            System.out.println(
+                    "------------------------------------------------------------------------------------------");
         }
     }
 
@@ -121,7 +129,7 @@ public class Teacher extends User {
                 marks.markInserting();
             } else if (teacherOption == 4) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                System.out.println("Enter Teacher ID number you want to update");
+                System.out.println("Enter Student ID number you want to update");
                 String studentId = input.nextLine();
                 studentId = validityChecker(studentId);
                 query = "select * from marks where studentID = " + studentId;
@@ -133,6 +141,8 @@ public class Teacher extends User {
             }
             System.out.println("1. To see your Information");
             System.out.println("2. To see your student information");
+            System.out.println("3. To Add Mark of your student");
+            System.out.println("4. To Update mark of your student");
             System.out.println("press -1 to exit ");
             teachOption = input.nextLine();
             teacherOption = Integer.parseInt(teachOption);
