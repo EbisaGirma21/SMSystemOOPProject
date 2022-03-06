@@ -138,12 +138,43 @@ public class Teacher extends User {
             teacherOption = Integer.parseInt(teachOption);
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }
-
     }
 
     @Override
-    String userUpdate(String userId) throws ClassNotFoundException, SQLException {
-        // TODO Auto-generated method stub
-        return null;
+    String userUpdate(String teacherID) throws ClassNotFoundException, SQLException {
+        DataBaseAccess db = new DataBaseAccess();
+        Connection con = db.Connection();
+        System.out.println("1.First Name  2.Middle Name  3.Last Name  4.Subject ");
+        String info = "";
+        String updatedInfo = "";
+        String opt = input.nextLine();
+        int options = Integer.parseInt(opt);
+        if (options == 1) {
+            info = "teacherFirstName";
+            System.out.println("Enter Firt Name of the Teacher");
+            updatedInfo = input.nextLine();
+        } else if (options == 2) {
+            info = "teacherMiddleName";
+            System.out.println("Enter Middle Name of the Teacher");
+            updatedInfo = input.nextLine();
+        } else if (options == 3) {
+            info = "teacherLastName";
+            System.out.println("Enter Last Name of the Teacher");
+            updatedInfo = input.nextLine();
+        } else if (options == 4) {
+            info = "subject";
+            System.out.println("Enter Subject of Teacher");
+            updatedInfo = input.nextLine();
+        } else {
+            System.out.println("Incorrect input");
+            return "This is Hidden!";
+        }
+
+        String queryUpdate = "update teacher set " + info + " = ? where teacherID = ?";
+        PreparedStatement update = con.prepareStatement(queryUpdate);
+        update.setString(1, updatedInfo);
+        update.setString(2, teacherID);
+        update.executeUpdate();
+        return "Successfully Updated!";
     }
 }
