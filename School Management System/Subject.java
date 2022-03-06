@@ -1,3 +1,8 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class Subject {
     String subjectName;
     String subjectCode;
@@ -5,6 +10,13 @@ public class Subject {
     String gradeNumber;
 
     Subject(String subjectName, String subjectCode, String teacherId, String gradeNumber) {
+        this.subjectName = subjectName;
+        this.subjectCode = subjectCode;
+        this.teacherId = teacherId;
+        this.gradeNumber = gradeNumber;
+    }
+
+    void setSubject(String subjectName, String subjectCode, String teacherId, String gradeNumber) {
         this.subjectName = subjectName;
         this.subjectCode = subjectCode;
         this.teacherId = teacherId;
@@ -26,8 +38,6 @@ public class Subject {
     public String getGradeNumber() {
         return gradeNumber;
     }
-
-}
 
     public void setSubjectCon(String sql) throws ClassNotFoundException, SQLException {
         Subject[] subject = new Subject[100];
