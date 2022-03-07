@@ -254,7 +254,7 @@ class Admin extends User {
                                 subject.setSubjectCon(query);
                             } else if (adminSecondOption == 5) {
                                 query = "select * from subject";
-                                grade.setGradeCon(query);
+                                subject.setSubjectCon(query);
                                 System.out.println("Enter Subject Code");
                                 String subjectCode = input.nextLine();
                                 System.out.println(subject.subjectUpdate(subjectCode));

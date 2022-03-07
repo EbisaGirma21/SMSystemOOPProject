@@ -100,10 +100,6 @@ public class Grade {
 
     String gradeUpdate(String gradeNumber) throws ClassNotFoundException, SQLException {
         try {
-            Grade[] grade = new Grade[100];
-            for (int i = 0; i < grade.length; i++) {
-                grade[i] = new Grade(null, null, 0);
-            }
             int count = 0;
             DataBaseAccess db = new DataBaseAccess();
             Connection con = db.Connection();
@@ -112,10 +108,10 @@ public class Grade {
             String[] existanceOfGrade = new String[12];
             int i = 0;
             while (resultStore.next()) {
-                existanceOfGrade[i] = resultStore.getString(2);
+                existanceOfGrade[i] = resultStore.getString(1);
                 i++;
             }
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j <= i; j++) {
                 if (gradeNumber.equals(existanceOfGrade[j])) {
                     count++;
                     break;
